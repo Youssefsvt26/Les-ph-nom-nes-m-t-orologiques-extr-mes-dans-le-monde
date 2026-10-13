@@ -304,10 +304,56 @@ main{display:block;max-width:1200px;margin:0 auto 40px;padding:0 20px}
 .ct{height:15px;border-radius:8px}
 .cv{font-size:.9rem}
 .ct i.cut::after{content:none;display:none}
+.ckp{margin-bottom:12px}
+.ckp .kpi b{font-size:1.5rem}
+.msg{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;font-weight:700;font-size:1rem}
+.msg span{padding:7px 16px;border-radius:99px;background:var(--card);border:1px solid var(--bd);backdrop-filter:blur(6px)}
+.msg span:nth-child(1){border-color:#3da5ff}.msg span:nth-child(3){border-color:#f5a623}.msg span:nth-child(5){border-color:#7fd6c2}
+.msg i{font-style:normal;color:var(--mut)}
+.cfoot{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;text-align:center}
+.qrbox{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:10px 14px;text-align:left;backdrop-filter:blur(6px)}
+.qrbox svg{width:108px;height:108px;border-radius:8px;flex:0 0 auto}
+.qrbox b{display:block;font-size:.92rem;margin-bottom:3px}
+.qrbox span{font-size:.68rem;color:var(--mut);word-break:break-all}
+.kbhint{position:fixed;left:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:10;padding:7px 14px;border-radius:99px;background:rgba(10,20,36,.78);color:#eaf1fb;font-size:.74rem;font-weight:600;backdrop-filter:blur(8px);transition:opacity .6s}
+.kbhint.off{opacity:0;pointer-events:none}
+@media(hover:none){.kbhint{display:none}}
+@media(max-width:700px){.cfoot{grid-template-columns:1fr}.qrbox{justify-content:center}}
+.spot{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;transition:opacity .3s;--x:50%;--y:50%;--r:140px;background:radial-gradient(circle var(--r) at var(--x) var(--y),transparent 0,transparent 70%,rgba(0,0,0,.82) 100%)}
+.spot.on{opacity:1}
+.concl h2::after{content:"";display:block;width:130px;height:4px;margin:8px auto 0;border-radius:4px;background:linear-gradient(90deg,#ff6b3d,#3da5ff,#b28cff,#f5a623)}
+.ckp .kpi{border-top:4px solid var(--c,#7fd6c2)}
+.ckp .kpi:nth-child(1){--c:#ff6b3d}.ckp .kpi:nth-child(2){--c:#3da5ff}.ckp .kpi:nth-child(3){--c:#b28cff}.ckp .kpi:nth-child(4){--c:#f5a623}
+.ckp .kpi b{color:var(--c)}
+.cmid .ins{border-left:4px solid var(--c,#7fd6c2);padding:14px 16px;font-size:.9rem;line-height:1.45}
+.cmid .ins h3{font-size:1rem;margin:0 0 6px}
+.cmid .ins .n{background:var(--c,#7fd6c2)}
+.cmid .ins:nth-child(1){--c:#ff6b3d}.cmid .ins:nth-child(2){--c:#3da5ff}.cmid .ins:nth-child(3){--c:#7fd6c2}
+.cmid .inss{gap:10px;justify-content:space-between}
+.cr{margin:11px 0}
+.cfoot{border-top:1px solid var(--bd);padding-top:16px;margin-top:6px}
+.concl .thanks{font-size:1.6rem;margin-top:10px}
+.globe{background:radial-gradient(circle at 50% 40%,#0d2244,#050b16);border:1px solid var(--bd);border-radius:22px;padding:10px;overflow:hidden;animation:glow 7s ease-in-out infinite alternate}
+@media(prefers-reduced-motion:reduce){.globe{animation:none}}
+.cfoot{grid-template-columns:1fr}
+.tabs{display:flex;gap:6px;margin:2px 0 8px;flex-wrap:wrap}
+.tab{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:99px;padding:5px 12px;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
+.tab:hover{border-color:var(--c)}
+.tab.on{background:var(--c);color:#0b1424;border-color:var(--c)}
+.tp{display:none}
+.tp.on{display:block;animation:fadeup .35s ease}
+.kn{background:color-mix(in srgb,var(--c) 26%,transparent);padding:0 3px;border-radius:4px;font-weight:700;color:inherit}
+.cmp{width:100%;border-collapse:collapse;font-size:.74rem;margin:0 0 8px}
+.cmp th,.cmp td{padding:4px 6px;text-align:left;vertical-align:top;border-bottom:1px solid var(--bd)}
+.cmp thead th{color:var(--c);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+.cmp tbody th{color:var(--mut);font-weight:700;white-space:nowrap;width:1%}
+@media(max-height:820px){.media .ill{min-height:100px}.media .ill img,.media .ill svg{max-height:125px}.cmp th,.cmp td{padding:3px 6px}}
 </style>
 </head>
 <body>
 <div class="prog" id="prog"></div>
+<div class="kbhint" id="kbh">⌨ ← → articles · ↑ ↓ fenêtres · F onglets · L projecteur</div>
+<div class="spot" id="spot"></div>
 <div class="bg"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
 <header class="hero">
 <i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i>
@@ -321,12 +367,13 @@ main{display:block;max-width:1200px;margin:0 auto 40px;padding:0 20px}
 <section class="som" id="sommaire"><h2>📑 Sommaire</h2><p class="somsub">Cliquez sur une partie pour y accéder directement.</p><ol id="som"></ol></section>
 <main id="parts"></main>
 <section class="concl" id="conclusion"><h2>🧭 Conclusion</h2><p class="csub">Ce qu'il faut retenir de ces dix catastrophes.</p>
+<div class="kpis ckp" id="ckp"></div>
 <div class="cmid"><div class="chart" id="chart"></div><div class="inss">
 <div class="ins"><h3><span class="n">1</span>Des phénomènes liés</h3>Au Maroc, un hiver très pluvieux a fait pousser de l'herbe que la chaleur a ensuite asséchée ; en Australie, la chaleur record s'est accompagnée d'un risque d'incendie jugé « catastrophique ».</div>
 <div class="ins"><h3><span class="n">2</span>Un climat qui change</h3>Selon Météo-France, les canicules arrivent de plus en plus tôt dans l'année et plus de la moitié des vagues de chaleur depuis 1947 ont eu lieu après 2010. Selon l'AFP, les scientifiques estiment que le réchauffement rend les inondations plus fréquentes et plus intenses.</div>
-<div class="ins"><h3><span class="n">3</span>Anticiper pour limiter les dégâts</h3>Au Maroc, l'agence des eaux et forêts attribue la baisse des surfaces brûlées à la rapidité de détection et d'intervention. Comprendre, se préparer et limiter le réchauffement sont trois enjeux à relier.</div>
+<div class="ins"><h3><span class="n">3</span>Anticiper pour limiter les dégâts</h3>Au Maroc, l'agence des eaux et forêts attribue la baisse des surfaces brûlées à la rapidité de détection et d'intervention.</div>
 </div></div>
-<div class="cfoot"><div class="by" id="cby" style="justify-content:center"></div><p class="thanks">Merci de votre attention 🌍</p></div>
+<div class="cfoot"><div class="cend"><div class="by" id="cby" style="justify-content:center"></div><p class="thanks">Merci de votre attention 🌍</p></div></div>
 </section>
 <footer>Résumés rédigés à partir des articles de presse cités (source et lien sur chaque fiche). Événements d'octobre 2025 à septembre 2026.</footer>
 <script>
@@ -344,8 +391,8 @@ const E=[
 {t:"t",co:"Asie",pa:"Philippines",pl:"Cebu",d:"Novembre 2025",ti:"Typhon Kalmaegi",ar:"Le typhon Kalmaegi a frappé le centre des Philippines avec une rare violence. Certaines régions n'avaient jamais connu d'inondations aussi dévastatrices, notamment la province de Cebu, où maisons et véhicules ont été emportés. Plus de 300 000 personnes ont été touchées ; le premier bilan faisait état de 60 à 90 morts et d'une vingtaine de disparus, et d'autres articles ont ensuite parlé de plus de 140, puis de plus de 220 morts.",sr:"Météo et Radar (dpa)",st:"Cyclone Kalmaegi : typhon meurtrier aux Philippines",u:"https://www.meteoetradar.ch/actualites-meteo/cyclone-kalmaegi-typhon-meurtrier-aux-philippines--f5cc3aa8-a1d5-4dea-964c-3e9e726eda8d",la:10.3,lo:123.9},
 {t:"t",co:"Afrique",pa:"Madagascar",pl:"Toamasina",d:"2026",ti:"Deux cyclones en dix jours",ar:"Deux cyclones successifs ont touché Madagascar en l'espace de dix jours, faisant des dizaines de morts et affectant plus de 450 000 personnes. Des quartiers entiers de Toamasina sont dévastés et des communautés sont coupées de la nourriture, de l'eau potable et des soins. La montée des eaux fait aussi craindre des épidémies. La Croix-Rouge malgache, soutenue par l'IFRC, distribue abris, eau et aide de santé.",sr:"IFRC (Croix-Rouge) — page d'urgence, pas un article de presse",st:"Madagascar : Cyclones 2026",u:"https://www.ifrc.org/fr/taxonomy/term/51",la:-18.15,lo:49.4},
 {t:"s",co:"Europe",pa:"Espagne",pl:"Espagne et Union européenne",d:"Début août 2026",ti:"Une saison d'incendies parmi les pires d'Europe",pr:["y","f"],ar:"À la 31ᵉ semaine de 2026, 489 826 hectares avaient brûlé dans l'Union européenne, soit 13 % de plus que la moyenne de 2012 à 2025 à la même date ; seules 2012, 2022 et 2017 font pire. L'Espagne est le pays le plus touché avec 185 948 hectares, 38 % du total et plus du double de sa moyenne. Les feux ont surtout parcouru forêts, broussailles, pâturages et terres agricoles, et plusieurs ont atteint des villes.",sr:"Euronews",st:"Incendies en Europe 2026 : déjà l'année la plus grave jamais enregistrée ?",u:"https://fr.euronews.com/2026/08/13/incendies-en-europe-2026-est-il-deja-lannee-la-plus-grave-jamais-enregistree",la:40.2,lo:-3.7},
-{t:"s",co:"Afrique",pa:"Maroc",pl:"Maroc",d:"Janvier – juillet 2026",ti:"Plus de départs de feu, moins de surfaces brûlées",pr:["r","b"],ar:"Entre janvier et fin juillet 2026, le Maroc a compté 340 incendies pour environ 2 150 hectares brûlés, soit près de 31 % de moins que la moyenne annuelle, selon l'Agence nationale des eaux et forêts. Le nombre de départs de feu a pourtant augmenté : un hiver très pluvieux a fait pousser beaucoup d'herbe, ensuite asséchée par les vagues de chaleur de fin mai et de début juillet. L'agence attribue la baisse des surfaces à la rapidité de détection et d'intervention.",sr:"Hespress (et SNRT News)",st:"Incendies de forêt : baisse de près de 31 % des superficies brûlées",u:"https://fr.hespress.com/483404-483404.html",la:31.8,lo:-6.5},
-{t:"s",co:"Océanie",pa:"Australie",pl:"Victoria",d:"Janvier 2026",ti:"Feux de brousse dans des conditions « catastrophiques »",pr:["a","v"],ar:"Début janvier 2026, des feux de brousse détruisent des habitations et réduisent en cendres des milliers d'hectares dans le sud-est rural de l'Australie. Des dizaines de hameaux sont évacués dans l'État de Victoria et trois personnes, dont un enfant, sont portées disparues. Les pompiers évoquent des conditions « catastrophiques » : environ 40 °C, des vents chauds et une région très sèche, comme lors de l'« été noir » de 2019-2020.",sr:"Blue News (Keystone-SDA)",st:"L'Australie en proie aux feux dans des conditions catastrophiques",u:"https://www.bluewin.ch/fr/infos/faits-divers/laustralie-en-proie-aux-feux-dans-des-conditions-catastrophiques-3042062.html",la:-36.8,lo:144.3},
+{t:"s",co:"Afrique",pa:"Maroc",pl:"Maroc",d:"Janvier – juillet 2026",ti:"Plus de départs de feu, moins de surfaces brûlées",pr:["a","v"],ar:"Entre janvier et fin juillet 2026, le Maroc a compté 340 incendies pour environ 2 150 hectares brûlés, soit près de 31 % de moins que la moyenne annuelle, selon l'Agence nationale des eaux et forêts. Le nombre de départs de feu a pourtant augmenté : un hiver très pluvieux a fait pousser beaucoup d'herbe, ensuite asséchée par les vagues de chaleur de fin mai et de début juillet. L'agence attribue la baisse des surfaces à la rapidité de détection et d'intervention.",sr:"Hespress (et SNRT News)",st:"Incendies de forêt : baisse de près de 31 % des superficies brûlées",u:"https://fr.hespress.com/483404-483404.html",la:31.8,lo:-6.5},
+{t:"s",co:"Océanie",pa:"Australie",pl:"Victoria",d:"Janvier 2026",ti:"Feux de brousse dans des conditions « catastrophiques »",pr:["b","r"],ar:"Début janvier 2026, des feux de brousse détruisent des habitations et réduisent en cendres des milliers d'hectares dans le sud-est rural de l'Australie. Des dizaines de hameaux sont évacués dans l'État de Victoria et trois personnes, dont un enfant, sont portées disparues. Les pompiers évoquent des conditions « catastrophiques » : environ 40 °C, des vents chauds et une région très sèche, comme lors de l'« été noir » de 2019-2020.",sr:"Blue News (Keystone-SDA)",st:"L'Australie en proie aux feux dans des conditions catastrophiques",u:"https://www.bluewin.ch/fr/infos/faits-divers/laustralie-en-proie-aux-feux-dans-des-conditions-catastrophiques-3042062.html",la:-36.8,lo:144.3},
 {t:"p",co:"Afrique",pa:"Kenya",pl:"Nairobi",d:"Mars 2026",ti:"Nairobi transformée en torrent",ar:"Des pluies torrentielles tombées le vendredi soir 6 mars 2026 ont transformé les grands axes de Nairobi en torrents, inondé des milliers de logements et de commerces et endommagé routes et infrastructures, aussi bien dans les bidonvilles que dans les quartiers aisés. Un premier bilan de la police faisait état de 45 noyades dans le pays ; des articles ultérieurs ont parlé de 108 morts et de plus de 2 700 familles contraintes de quitter leur domicile.",sr:"Le360 Afrique (AFP)",st:"Kenya : le bilan des inondations grimpe à 45 morts, selon la police",u:"https://afrique.le360.ma/societe/kenya-le-bilan-des-inondations-grimpe-a-45-morts-selon-la-police_VNXJX7YICVG6LODVUXIF6CBAIE/",la:-1.29,lo:36.82}
 ];
 const C={};S.forEach(s=>C[s.k]=s.c);
@@ -390,23 +437,58 @@ function showInfo(i,h){return;
 if(i<0){h.innerHTML='<p class="hint">👆 Cliquez sur un point du globe pour voir le bilan humain de la catastrophe.</p>';return}
 const e=E[i],d=INFO[i],c=C[e.t];
 h.innerHTML='<div class="ill'+(PHOTO[i]?' ph':'')+'">'+(PHOTO[i]?'<img alt="'+e.ti+'" src="'+PHOTO[i].u+'">':art(e.t))+'<span class="cap" style="background:'+c+'">'+e.pa+' · '+e.pl+'</span></div><h4>'+e.ti+'</h4><div class="stats"><div><b>'+d.m+'</b><span>🕯️ Morts</span></div><div><b>'+d.b+'</b><span>🩹 Blessés</span></div>'+d.x.map(x=>'<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("")+'</div><p class="src">Bilan : '+d.s.map(q=>'<a href="'+q[1]+'" target="_blank" rel="noopener">'+q[0]+'</a>').join(" · ")+'</p><p class="note">'+(PHOTO[i]?'Image : '+PHOTO[i].c:'Illustration créée pour le site : les photos des articles ne peuvent pas être reprises.')+'</p>'}
+const SEC=[
+{sr:"Sud Radio",d:"2026",st:"Canicule 2026 en France : un bilan sanitaire et climatique historique, proche des records de 2003",u:"https://www.sudradio.fr/sud-radio/canicule-2026-en-france-un-bilan-sanitaire-et-climatique-historique-proche-des-records-de-2003",ar:"Cette analyse décrit une canicule de juin « précoce, durable » et d'une intensité inédite : les températures moyennes sur 24 heures atteignent pour la première fois 30 °C les 24 et 25 juin, au-dessus des records d'août 2003. L'article précise que le bilan humain publié par Santé publique France est lourd, mais qu'il reste pour l'instant en dessous des quelque 15 000 morts de 2003. Il ajoute que juillet 2026 est devenu le mois le plus chaud jamais mesuré en France.",cx:"Les deux sources donnent le même record : 30 °C de moyenne les 24 et 25 juin. Météo-France se concentre sur les mesures ; Sud Radio y ajoute la comparaison avec 2003 (plus intense, mais un bilan humain pas encore aussi lourd). Attention : le chiffre de décès cité par Sud Radio vient de Santé publique France, donc ce n'est pas une source totalement indépendante."},
+{sr:"The Canberra Times",d:"fin janvier 2026",st:"Records tumble as baking week-long heatwave settles in",u:"https://www.canberratimes.com.au/story/9162154/records-tumble-as-baking-week-long-heatwave-settles-in/",ar:"Cet article dresse la liste des records battus les 26 et 27 janvier 2026 pendant une deuxième vague de chaleur : 49,6 °C à Renmark et 49,5 °C à Ceduna en Australie-Méridionale, et jusqu'à 48,9 °C à Ouyen, Hopetoun et Walpeup dans le Victoria. Il indique que Wudinna a atteint 48,6 °C, au-dessus de son ancien record de décembre 2019.",cx:"Les deux articles s'appuient sur des relevés officiels, mais à deux dates : le 8 janvier (48,2 °C) puis les 26 et 27 janvier (48,6 °C à Wudinna, 49,6 °C à Renmark). Le chiffre de 48,2 °C n'est donc pas le maximum de l'été. Le second article rappelle aussi que le record de Wudinna datait de 2019 : le mot « inédit » du premier est donc à nuancer."},
+{sr:"Asia News Network",d:"7 août 2026",st:"India's Assam flood toll reaches 95 after six more deaths, 160,000 people affected across 14 districts",u:"https://asianews.network/?p=292878",ar:"Le 7 août 2026, le bilan de la saison des crues atteint 95 morts après six décès en 24 heures. Environ 160 000 personnes sont touchées dans 563 villages de 14 districts, sept digues ont cédé et deux ponts sont endommagés. Près de 17 000 hectares de cultures restent sous l'eau et plus de 12 000 personnes sont dans des camps. Sivasagar reste le district le plus touché.",cx:"Les deux articles décrivent la même crue à trois jours d'écart : 95 morts le 7 août, 100 le 10 août. Les autres chiffres diffèrent selon ce qu'on compte : près de 300 000 personnes ont dû rejoindre des camps de secours (AP), alors que 12 356 y étaient encore le 7 août. L'un compte tous ceux qui sont passés par les camps, l'autre ceux qui y restent."},
+{sr:"L'Info durable (AFP)",d:"janvier 2026",st:"Tempête Goretti : 380 000 foyers privés d'électricité en France",u:"https://www.linfodurable.fr/tempete-goretti-380000-foyers-prives-delectricite-en-france-54028",ar:"Cette dépêche de l'AFP fait le bilan des dégâts de la tempête en France : environ 380 000 foyers sont privés d'électricité et une rafale maximale de 216 km/h est relevée. Deux personnes sont hospitalisées dans la Manche au premier bilan.",cx:"Futura-Sciences explique pourquoi les vents ont été si violents (le « sting jet »), alors que l'AFP raconte surtout les conséquences : coupures d'électricité et premiers blessés. L'un donne la cause, l'autre le bilan. Sur la vitesse, ils concordent : « plus de 210 km/h » d'un côté, 216 km/h de l'autre."},
+{sr:"Les Nouvelles Calédoniennes (AFP)",d:"6 novembre 2025",st:"Aux Philippines, le bilan du typhon Kalmaegi monte à 140 morts",u:"https://www.lnc.nc/article/pacifique/societe/environnement/aux-philippines-le-bilan-du-typhon-kalmaegi-monte-a-140-morts",ar:"Le 6 novembre 2025, l'AFP compte au moins 140 morts et 127 disparus aux Philippines, d'après des chiffres officiels : 114 décès confirmés par la défense civile et 28 enregistrés par les autorités de la province de Cebu. Près de 400 000 personnes avaient été éloignées à l'avance de la trajectoire du typhon. Autour de Cebu, 183 mm de pluie sont tombés en 24 heures, bien au-dessus de la moyenne mensuelle (131 mm).",cx:"Un seul jour sépare les deux articles et le bilan a plus que doublé : au moins 66 morts le 5 novembre, au moins 140 le 6. Le premier parle d'une vingtaine de disparus, le second de 127. Plus la catastrophe est récente, plus les chiffres bougent : d'autres articles ont ensuite dépassé 220 morts."},
+{sr:"Le360 Afrique (AFP)",d:"février 2026",st:"Cyclone à Madagascar : plus de 30 morts, la deuxième ville du pays « détruite à 75 % »",u:"https://afrique.le360.ma/societe/cyclone-a-madagascar-plus-de-30-morts-la-deuxieme-ville-du-pays-detruite-a-75_CD574OHSRVHXLNNVCSDZK34IWU/",ar:"Le cyclone Gezani frappe Madagascar le 10 février 2026. Selon le dernier bilan de l'AFP, il fait au moins 31 morts et 36 blessés graves, et plus de 250 000 personnes sont sinistrées. Toamasina, deuxième ville du pays, est « détruite à 75 % ».",cx:"La Croix-Rouge (IFRC) parle de deux cyclones en dix jours et de plus de 450 000 personnes affectées ; l'AFP parle d'un seul cyclone, Gezani, avec au moins 31 morts et plus de 250 000 sinistrés. Les chiffres diffèrent car les deux sources ne comptent pas la même chose (un ou deux cyclones, « affectés » ou « sinistrés »). Et seul le second texte est un article de presse."},
+{sr:"La Libre (AFP)",d:"12 juillet 2026",st:"Incendie en Espagne : le bilan s'alourdit à 13 morts après le décès d'une Britannique à l'hôpital",u:"https://www.lalibre.be/international/europe/2026/07/12/incendie-en-espagne-le-bilan-salourdit-a-13-morts-apres-le-deces-dune-britannique-a-lhopital-LYYNYAVGMJCQXABWCMQE6L4F24/",ar:"Le 12 juillet 2026, l'incendie de Los Gallardos, dans la province d'Almería (Andalousie), a fait au moins 13 morts après le décès à l'hôpital d'une Britannique de 93 ans, blessée dans le sinistre. Le feu est presque maîtrisé ce dimanche, ce qui permet à des centaines d'évacués de rentrer chez eux.",cx:"Ces deux articles ne parlent pas de la même échelle : Euronews compte les hectares brûlés dans toute l'Union européenne (Espagne : 185 948 ha), alors que La Libre raconte un seul incendie, celui de Los Gallardos (Almería), très meurtrier avec 13 morts. Ensemble, ils montrent qu'une saison d'incendies se mesure en surfaces et en vies humaines."},
+{sr:"Le Desk",d:"21 juillet 2026",st:"Feux de forêt : le Maroc contient les flammes malgré une hausse des départs de feu",u:"https://ledesk.ma/?p=313223",ar:"Selon le bilan de l'Agence nationale des eaux et forêts (ANEF), le Maroc a enregistré 310 incendies de forêt entre le 1er janvier et le 20 juillet 2026, sur 1 850 hectares. L'article explique la hausse des départs de feu par une herbe très dense, née des fortes pluies de l'hiver puis asséchée par les vagues de chaleur de fin mai et de début juillet, et la baisse des surfaces par l'efficacité de la prévention.",cx:"Les deux articles reprennent la même source officielle, l'ANEF, mais à deux dates : 340 incendies et 2 150 ha au 30 juillet (comparés à une moyenne annuelle de 3 130 ha) pour le premier, 310 incendies et 1 850 ha au 20 juillet (comparés à la moyenne des dix dernières années au même moment) pour le second. Ils se complètent, mais ne se contrôlent pas l'un l'autre : c'est la même origine."},
+{sr:"Les Nouvelles Calédoniennes (AFP)",d:"12 janvier 2026",st:"Un mort dans les feux de brousse du sud-est de l'Australie",u:"https://www.lnc.nc/article/pacifique/australie/faits-divers/environnement/un-mort-dans-les-feux-de-brousse-du-sud-est-de-l-australie",ar:"Le 11 janvier 2026, la police du Victoria annonce au moins un mort dans les feux de brousse : la victime est décédée près de Longwood, à environ deux heures de route de Melbourne. L'article rappelle que les températures ont dépassé 40 °C dans l'État, que des vents chauds ont favorisé les feux, comme pendant l'« été noir » de 2019-2020, et que des centaines de pompiers d'autres régions sont venus en renfort.",cx:"Le premier article parle de trois personnes disparues dont un enfant ; le second confirme au moins un mort, retrouvé près de Longwood. Entre les deux, la situation s'est précisée : une personne disparue n'est pas encore une personne morte. Les deux sources s'accordent sur les conditions : chaleur, vent chaud et comparaison avec l'été noir de 2019-2020."},
+{sr:"Tchad Infos (Africanews)",d:"29 mars 2026",st:"Inondations meurtrières au Kenya : le bilan monte à 108 morts",u:"https://tchadinfos.com/2026/03/29/inondations-meurtrieres-au-kenya-le-bilan-monte-a-108-morts/",ar:"Le 29 mars 2026, cet article repris d'Africanews annonce que les inondations au Kenya ont fait 108 morts. Plus de 2 700 familles ont été déplacées.",cx:"En trois semaines environ, le bilan est passé de 45 noyades (premier bilan de la police, dans l'article d'AFP) à 108 morts. Le premier article donne un chiffre du début de la catastrophe, le second le bilan presque complet. Un bon exemple de l'importance de toujours regarder la date d'un bilan."}
+];
+const HLRE=/(\d[\d\u202f\u00a0 ]*(?:[.,]\d+)?\s?(?:°C|km\/h|mm|hectares?|ha|morts?|décès|personnes|foyers|familles|disparus|blessés(?: graves)?|villages|districts|incendies|bâtiments|maisons|habitants|noyades|départements|%))(?![A-Za-zÀ-ÿ])/g;
+const hl=t=>t.replace(HLRE,'<mark class="kn">$1</mark>');
+const DT1=["juin 2026","8–9 janvier 2026","10 août 2026","janvier 2026","5 novembre 2025","2026","13 août 2026","30 juillet 2026","janvier 2026","mars 2026"];
+const CMP=[
+["30 °C de moyenne (24 et 25 juin)","30 °C ; bilan humain inférieur aux 15 000 morts de 2003","les mesures de température","la comparaison avec 2003 et le bilan humain"],
+["48,2 °C (8 janvier)","49,6 °C (26 et 27 janvier)","les températures du 8 janvier","les nouveaux records de fin janvier"],
+["100 morts (10 août)","95 morts (7 août)","le bilan et les camps de secours","les dégâts : digues, ponts, cultures"],
+["plus de 210 km/h","216 km/h ; 380 000 foyers sans courant","la cause : le « sting jet »","les conséquences : coupures, blessés"],
+["au moins 66 morts (5 novembre)","au moins 140 morts (6 novembre)","l'ampleur des inondations","les chiffres officiels, les disparus, les évacuations"],
+["plus de 450 000 personnes affectées (2 cyclones)","31 morts, plus de 250 000 sinistrés (Gezani)","l'aide humanitaire","la destruction de Toamasina"],
+["185 948 ha (Espagne, début août)","13 morts (Los Gallardos)","les surfaces brûlées en Europe","un incendie précis et ses victimes"],
+["340 incendies, 2 150 ha (30 juillet)","310 incendies, 1 850 ha (20 juillet)","la baisse des surfaces brûlées","les causes de la hausse des départs de feu"],
+["3 disparus dont un enfant","1 mort confirmé","l'évacuation des hameaux, les disparus","la confirmation d'un décès et les conditions"],
+["45 morts (premier bilan de la police)","108 morts","le premier bilan, au début de la crise","le bilan presque complet et les familles déplacées"]];
+function cmpHTML(i,e,x){const c=CMP[i];
+return '<table class="cmp"><thead><tr><th></th><th>Article 1</th><th>Article 2</th></tr></thead><tbody><tr><th>Média</th><td>'+e.sr+'</td><td>'+x.sr+'</td></tr><tr><th>Date</th><td>'+DT1[i]+'</td><td>'+x.d+'</td></tr><tr><th>Chiffre clé</th><td>'+c[0]+'</td><td>'+c[1]+'</td></tr><tr><th>Mis en avant</th><td>'+c[2]+'</td><td>'+c[3]+'</td></tr></tbody></table>'}
+function artHTML(i,e,pr){const x=SEC[i];
+return '</div><div class="cd"><div class="lbl">📰 Revue de presse : deux articles croisés</div><div class="tabs"><button type="button" class="tab on" data-t="1">Article 1</button><button type="button" class="tab" data-t="2">Article 2</button><button type="button" class="tab" data-t="x">🔎 Croisement</button></div>'
++'<div class="tp on" data-t="1"><p class="art"><b>'+e.sr+'</b>'+hl(e.ar)+'</p><div class="foot"><span>Source : <a href="'+e.u+'" target="_blank" rel="noopener">'+e.sr+' — « '+e.st+' »</a></span></div></div>'
++'<div class="tp" data-t="2"><p class="art"><b>'+x.sr+' · '+x.d+'</b>'+hl(x.ar)+'</p><div class="foot"><span>Source : <a href="'+x.u+'" target="_blank" rel="noopener">'+x.sr+' — « '+x.st+' »</a></span></div></div>'
++'<div class="tp" data-t="x">'+cmpHTML(i,e,x)+'<p class="art"><b>Ce que montre le croisement</b>'+hl(x.cx)+'</p></div>'
++'<div class="by">Présenté par '+pr.map(k=>who(k,1)).join("")+'</div></div>'}
 function mediaHTML(i){const e=E[i],d=INFO[i],ph=PHOTO[i];
 return '<div class="media"><div class="ill'+(ph?' ph':'')+(i===0?' tall':'')+'">'+(ph?'<img alt="'+e.ti+'" src="'+ph.u+'" title="Cliquer pour agrandir">':art(e.t))+'</div><div class="bil"><div class="stats"><div><b>'+d.m+'</b><span>🕯️ Morts</span></div><div><b>'+d.b+'</b><span>🩹 Blessés</span></div>'+d.x.map(x=>'<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>').join("")+'</div><p class="src">Bilan : '+d.s.map(q=>'<a href="'+q[1]+'" target="_blank" rel="noopener">'+q[0]+'</a>').join(" · ")+'</p></div></div>'+(ph?'<p class="note">Image : '+ph.c+'</p>':'')}
 function makeGlobe(cv,idxs,info,col,cb,tour){const cc=e=>col||C[e.t];
 const ctx=cv.getContext("2d"),RAD=Math.PI/180,ev=idxs.map(i=>E[i]);
 let W=0,R=0,Rb=0,Z=1,L0=ev[0].lo,P0=Math.max(-25,Math.min(40,ev[0].la)),tgt=null,drag=null,sel=-1,moved=0,auto=true,seen=true;
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-function size(){const w=cv.getBoundingClientRect().width,d=window.devicePixelRatio||1;W=w;cv.width=w*d;cv.height=w*d;ctx.setTransform(d,0,0,d,0,0);Rb=w/2*.86;R=Rb*Z}
+function size(){const w=cv.getBoundingClientRect().width,d=Math.min(window.devicePixelRatio||1,2.5);if(!w)return;W=w;cv.width=Math.round(w*d);cv.height=Math.round(w*d);ctx.setTransform(d,0,0,d,0,0);Rb=w/2*.86;R=Rb*Z}
 function v(lo,la){const dl=(lo-L0)*RAD,p=la*RAD,Q=P0*RAD,c=Math.cos(p);return[c*Math.sin(dl),Math.cos(Q)*Math.sin(p)-Math.sin(Q)*c*Math.cos(dl),Math.sin(Q)*Math.sin(p)+Math.cos(Q)*c*Math.cos(dl)]}
 const X=a=>W/2+a[0]*R,Y=a=>W/2-a[1]*R;
 function edge(a){const n=Math.hypot(a[0],a[1])||1;return[a[0]/n,a[1]/n,0]}
+function rr(x,y,w,h,r){ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 function clip(poly){const o=[],vs=poly.map(q=>v(q[0],q[1]));if(vs.every(a=>a[2]<0))return o;let pr=vs[vs.length-1];
 vs.forEach(c=>{if((pr[2]>=0)!==(c[2]>=0)){const t=pr[2]/(pr[2]-c[2]);o.push(edge([pr[0]+(c[0]-pr[0])*t,pr[1]+(c[1]-pr[1])*t]))}o.push(c[2]>=0?c:edge(c));pr=c});return o}
 function draw(){
 ctx.clearRect(0,0,W,W);const m=W/2;
 let g=ctx.createRadialGradient(m,m,R*.98,m,m,R*1.16);g.addColorStop(0,"rgba(120,190,255,.55)");g.addColorStop(1,"rgba(120,190,255,0)");
 ctx.fillStyle=g;ctx.beginPath();ctx.arc(m,m,R*1.16,0,7);ctx.fill();
-g=ctx.createRadialGradient(m-R*.35,m-R*.4,R*.1,m,m,R);g.addColorStop(0,css("--sea"));g.addColorStop(1,"#06152c");
+g=ctx.createRadialGradient(m-R*.35,m-R*.4,R*.1,m,m,R);g.addColorStop(0,css("--sea")||"#1a4a86");g.addColorStop(1,"#06152c");
 ctx.fillStyle=g;ctx.beginPath();ctx.arc(m,m,R,0,7);ctx.fill();
 ctx.save();ctx.beginPath();ctx.arc(m,m,R,0,7);ctx.clip();
 ctx.strokeStyle="rgba(255,255,255,.13)";ctx.lineWidth=1;
@@ -414,7 +496,7 @@ const line=(f,a,b)=>{ctx.beginPath();let on=false;for(let k=a;k<=b;k+=4){const p
 const gs=Z>1.8?10:30;for(let la=-90+gs;la<90;la+=gs)line(k=>v(k,la),-180,180);
 for(let lo=-180;lo<180;lo+=gs)line(k=>v(lo,k),-90,90);
 ctx.strokeStyle="rgba(255,210,120,.35)";line(k=>v(k,0),-180,180);
-ctx.fillStyle=css("--land");ctx.strokeStyle="rgba(255,255,255,.4)";ctx.lineWidth=1.1;
+ctx.fillStyle=css("--land")||"#4d8a5c";ctx.strokeStyle="rgba(255,255,255,.4)";ctx.lineWidth=1.1;
 LAND.forEach(pl=>{const q=clip(pl);if(q.length<3)return;ctx.beginPath();q.forEach((a,i)=>i?ctx.lineTo(X(a),Y(a)):ctx.moveTo(X(a),Y(a)));ctx.closePath();ctx.fill();ctx.stroke()});
 const sh=ctx.createRadialGradient(m-R*.4,m-R*.45,R*.1,m,m,R);sh.addColorStop(0,"rgba(255,255,255,.22)");sh.addColorStop(.5,"rgba(255,255,255,0)");sh.addColorStop(1,"rgba(0,10,30,.55)");
 ctx.fillStyle=sh;ctx.fillRect(0,0,W,W);ctx.restore();
@@ -429,7 +511,7 @@ ctx.font="700 12px system-ui,sans-serif";const w1=ctx.measureText(e.pa).width;
 ctx.font="600 10.5px system-ui,sans-serif";const w2=two?ctx.measureText(e.ci).width:0;
 const w=Math.max(w1,w2)+16,h=two?34:20,bx=o.x-w/2,by=o.y-h-11;
 if(boxes.some(b=>bx<b[0]+b[2]&&bx+w>b[0]&&by<b[1]+b[3]&&by+h>b[1])&&o.i!==sel)return;boxes.push([bx,by,w,h]);
-ctx.fillStyle="rgba(6,16,34,.85)";ctx.strokeStyle=cc(e);ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(bx,by,w,h,10);ctx.fill();ctx.stroke();
+ctx.fillStyle="rgba(6,16,34,.85)";ctx.strokeStyle=cc(e);ctx.lineWidth=1.5;ctx.beginPath();rr(bx,by,w,h,10);ctx.fill();ctx.stroke();
 ctx.fillStyle="#fff";ctx.font="700 12px system-ui,sans-serif";ctx.fillText(e.pa,o.x,by+(two?11:10.5));
 if(two){ctx.fillStyle="#cfe3ff";ctx.font="600 10.5px system-ui,sans-serif";ctx.fillText(e.ci,o.x,by+25)}
 ctx.fillStyle=cc(e);ctx.beginPath();ctx.moveTo(o.x-4,by+h);ctx.lineTo(o.x+4,by+h);ctx.lineTo(o.x,by+h+5);ctx.closePath();ctx.fill()})}
@@ -444,7 +526,7 @@ else{Z+=(1-Z)*ex(10);if(Z<1.08){si=(si+1)%seq.length;ph=0;st=0}}}
 let last=0;(function tick(ts){const dt=Math.min(.05,((ts||0)-last)/1000)||.016;last=ts||0;if(seen){
 if(tgt){const d=((tgt.L-L0+540)%360)-180;L0+=d*.1;P0+=(tgt.P-P0)*.1;if(Math.abs(d)<.2&&Math.abs(tgt.P-P0)<.2)tgt=null}
 else if(tour){stepTour(dt)}else if(!drag&&auto)L0+=.12;
-L0=((L0+540)%360)-180;R=Rb*Z;draw()}requestAnimationFrame(tick)})();
+L0=((L0+540)%360)-180;R=Rb*Z;if(!W)size();if(W){try{draw()}catch(e){}}}requestAnimationFrame(tick)})();
 function select(i){sel=i;const e=E[i];tgt={L:e.lo,P:Math.max(-40,Math.min(50,e.la))};showInfo(i,info);
 cv.closest("section").querySelectorAll(".item").forEach(n=>n.classList.toggle("sel",+n.dataset.i===i))}
 cv.addEventListener("pointerdown",ev2=>{drag={x:ev2.clientX,y:ev2.clientY};moved=0;tgt=null;cv.setPointerCapture(ev2.pointerId);cv.style.cursor="grabbing"});
@@ -454,7 +536,8 @@ idxs.forEach(i=>{const a=v(E[i].lo,E[i].la);if(a[2]<.05)return;const d=Math.hypo
 cv.addEventListener("pointercancel",()=>{drag=null});
 if("IntersectionObserver" in window)new IntersectionObserver(es=>{seen=es[0].isIntersecting}).observe(cv);
 size();showInfo(-1,info);
-return{size,select,go:i=>{const k=seq.indexOf(i);if(k>=0){si=k;ph=0;st=0}},toggle:()=>{auto=!auto;return auto}}}
+if("ResizeObserver" in window)new ResizeObserver(()=>size()).observe(cv);
+return{size,select,cur:()=>seq[si],go:i=>{const k=seq.indexOf(i);if(k>=0){si=k;ph=0;st=0}},toggle:()=>{auto=!auto;return auto}}}
 const who=(k,sm)=>'<span class="who'+(sm?' sm':'')+'" style="--c:'+P[k].c+'">'+P[k].n+'</span>';
 document.getElementById("team").innerHTML=Object.keys(P).map(k=>who(k)).join("");
 const cnt=k=>E.filter(e=>e.t===k),ctry=k=>[...new Set(cnt(k).map(e=>e.pa))].join(", ");
@@ -463,12 +546,13 @@ document.getElementById("som").innerHTML=card("intro","#7fd6c2","Intro","🌍","
 +S.map((s,i)=>card("p"+i,s.c,i+1,s.ic,s.t,s.sub.split(".")[0],cnt(s.k).length+" événements · "+ctry(s.k),(s.k==="s"?"Tous : ":"")+s.pr.map(k=>who(k,1)).join(""))).join("")
 +card("conclusion","#7fd6c2","Fin","🧭","Conclusion","Les chiffres clés et ce qu'il faut retenir.","4 thèmes · 1 message","Tous : "+Object.keys(P).map(k=>who(k,1)).join(""));
 const CH=[["France · canicule",5764,"h","5 764*"],["Philippines · Kalmaegi",220,"t","220+"],["Kenya · inondations",108,"p","108"],["Inde (Assam) · inondations",100,"p","100"],["Madagascar · cyclone Gezani",31,"t","31"],["Espagne · incendie d\'Almería",13,"s","13"],["Australie (Victoria) · feux",1,"s","1"],["France · tempête Goretti",0,"t","0"],["Maroc · incendies",null,"s","—"],["Australie du Sud · chaleur",null,"h","—"]];
-document.getElementById("chart").innerHTML='<h3>📊 Nombre de morts par catastrophe</h3><p class="cs">Toutes les barres ont la même échelle (maximum 250).</p>'+CH.map(r=>'<div class="cr"><span class="cl">'+r[0]+'</span><div class="ct">'+(r[1]===null?'':'<i class="'+(r[1]>250?'cut':'')+'" style="--c:'+C[r[2]]+';--w:'+(r[1]>0?Math.max(Math.min(r[1]/250,1)*100,1.5):0)+'%"></i>')+'</div><b class="cv">'+r[3]+'</b></div>').join("")+'<p class="cnote">* Décès en excès toutes causes, bilan provisoire : barre tronquée. « — » : pas de bilan humain publié. Philippines : « plus de 220 ». Espagne : incendie d\'Almería. Goretti : aucun mort en France.</p>';
+document.getElementById("chart").innerHTML='<h3>📊 Nombre de morts par catastrophe</h3><p class="cs">Toutes les barres ont la même échelle (maximum 250). Plus la barre est longue, plus le bilan est lourd.</p>'+CH.map(r=>'<div class="cr"><span class="cl">'+r[0]+'</span><div class="ct">'+(r[1]===null?'':'<i class="'+(r[1]>250?'cut':'')+'" style="--c:'+C[r[2]]+';--w:'+(r[1]>0?Math.max(Math.min(r[1]/250,1)*100,1.5):0)+'%"></i>')+'</div><b class="cv">'+r[3]+'</b></div>').join("")+'<p class="cnote">* Décès en excès toutes causes, bilan provisoire : barre tronquée. « — » : pas de bilan humain publié. Philippines : « plus de 220 ». Espagne : incendie d\'Almería. Goretti : aucun mort en France.</p>';
+document.getElementById("ckp").innerHTML=[[E.length,"événements"],[new Set(E.map(e=>e.pa)).size,"pays"],[new Set(E.map(e=>e.co)).size,"continents"],[S.length,"phénomènes"]].map(k=>'<div class="kpi"><b>'+k[0]+'</b><span>'+k[1]+'</span></div>').join("");
 document.getElementById("cby").innerHTML='Conclusion présentée par '+Object.keys(P).map(k=>who(k,1)).join("");
 const IDX=S.map(s=>E.map((e,i)=>i).filter(i=>E[i].t===s.k));
 document.getElementById("parts").innerHTML=S.map((s,n)=>{
 const items=IDX[n].map(i=>{const e=E[i],pr=e.pr||s.pr;
-return '<article class="item" data-i="'+i+'" style="--c:'+s.c+'"><div class="cd"><div class="lbl">📊 Bilan et image</div><div class="loc">📍 '+e.pl+' · '+e.pa+' · '+e.co+' · '+e.d+'</div><h3>'+e.ti+'</h3>'+mediaHTML(i)+'</div><div class="cd"><div class="lbl">📰 L\'article</div><p class="art"><b>L\'article en bref</b>'+e.ar+'</p><div class="by">Présenté par '+pr.map(k=>who(k,1)).join("")+'</div><div class="foot"><span>Source : <a href="'+e.u+'" target="_blank" rel="noopener">'+e.sr+' — « '+e.st+' »</a></span></div></div></article>'}).join("");
+return '<article class="item" data-i="'+i+'" style="--c:'+s.c+'"><div class="cd"><div class="lbl">📊 Bilan et image</div><div class="loc">📍 '+e.pl+' · '+e.pa+' · '+e.co+' · '+e.d+'</div><h3>'+e.ti+'</h3>'+mediaHTML(i)+artHTML(i,e,pr)+'</article>'}).join("");
 const dots=IDX[n].map((_,k)=>'<button class="dot'+(k?'':' on')+'" aria-label="Article '+(k+1)+'"></button>').join("");
 return '<section class="part" id="p'+n+'"><div class="ph" style="--c:'+s.c+'"><div class="n">Partie '+(n+1)+'</div><h2>'+s.ic+' '+s.t+'</h2><p>'+s.sub+'</p><div class="by">'+(s.k==="s"?'Tous : ':'Présenté par ')+s.pr.map(k=>who(k,1)).join("")+'</div></div><div class="pgrid"><aside class="globe" style="--c:'+s.c+'"><canvas></canvas><div class="tools"><span class="leg"><i style="--c:'+s.c+'"></i>'+s.ic+' '+IDX[n].length+' articles</span><button class="rot">⏸ Pause</button></div><div class="info"></div></aside><div class="rcol"><div class="stage" style="--c:'+s.c+'"><div class="plist">'+items+'</div><button class="next" aria-label="Article suivant"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="bar" style="--c:'+s.c+'"><span class="count">1 / '+IDX[n].length+'</span><span class="dots">'+dots+'</span></div></div></div></section>'}).join("");
 const GL=S.map((s,n)=>{const sec=document.getElementById("p"+n);let stg;
@@ -483,7 +567,7 @@ setTimeout(()=>{nx.classList.remove("enter");busy=false},650)},330);
 if(!fromGlobe)g.select(+nx.dataset.i)}
 sec.querySelector(".next").addEventListener("click",()=>show((cur+1)%items.length));
 dots.forEach((d,k)=>d.addEventListener("click",()=>show(k)));
-stg={show,idx:i=>items.findIndex(x=>+x.dataset.i===i)};
+stg={show,idx:i=>items.findIndex(x=>+x.dataset.i===i)};sec.nav=d=>show((cur+d+items.length)%items.length);
 g.select(IDX[n][0]);return g});
 const SEQ=[7,6,0,3,9,5,2,4,1,8],TH=k=>S.find(x=>x.k===k);
 const kp=[[E.length,"événements"],[new Set(E.map(e=>e.pa)).size,"pays"],[new Set(E.map(e=>e.co)).size,"continents"],[S.length,"phénomènes"]];
@@ -496,12 +580,36 @@ lis.forEach(l=>l.classList.toggle("on",+l.dataset.i===i))});
 lis.forEach(l=>l.addEventListener("click",()=>IG.go(+l.dataset.i)));
 document.querySelectorAll(".who").forEach((n,i)=>{n.style.setProperty("--i",i);n.style.setProperty("--sd",(i%6)*.6+"s");n.style.setProperty("--bd",(i%6)*.45+"s")});
 if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const t=e.target;t.classList.add("in");io.unobserve(t);setTimeout(()=>t.style.setProperty("--d","0s"),1400)}}),{threshold:.1});
-document.querySelectorAll(".som li,.ph,.kc,.ins,.cfoot,.chart").forEach((n,i)=>{n.classList.add("rv");n.style.setProperty("--d",(i%4)*.09+"s");io.observe(n)})}
+document.querySelectorAll(".som li,.ph,.kc,.ins,.cfoot,.chart,.ckp,.msg").forEach((n,i)=>{n.classList.add("rv");n.style.setProperty("--d",(i%4)*.09+"s");io.observe(n)})}
 const pg=document.getElementById("prog");
 window.addEventListener("scroll",()=>{const h=document.documentElement.scrollHeight-innerHeight;pg.style.width=(h>0?scrollY/h*100:0)+"%"},{passive:true});
 window.addEventListener("resize",()=>{GL.forEach(g=>g.size());IG.size()});
+(function(){const W=()=>[document.querySelector(".hero"),document.getElementById("sommaire"),document.getElementById("intro"),...S.map((s,n)=>document.getElementById("p"+n)),document.getElementById("conclusion")].filter(Boolean);
+const cur=()=>{const m=innerHeight/2;let k=0;W().forEach((e,i)=>{if(e.getBoundingClientRect().top<=m)k=i});return k};
+const go=k=>{const w=W();w[Math.max(0,Math.min(w.length-1,k))].scrollIntoView({behavior:"smooth",block:"start"})};
+const kb=document.getElementById("kbh");setTimeout(()=>kb.classList.add("off"),8000);
+const spot=document.getElementById("spot");let sr=140;
+const setPos=(x,y)=>{spot.style.setProperty("--x",x+"px");spot.style.setProperty("--y",y+"px")};
+setPos(innerWidth/2,innerHeight/2);
+document.addEventListener("pointermove",ev=>setPos(ev.clientX,ev.clientY),{passive:true});
+document.addEventListener("keydown",ev=>{if(ev.ctrlKey||ev.metaKey||ev.altKey)return;const t=ev.target&&ev.target.tagName;if(t==="INPUT"||t==="TEXTAREA"||t==="SELECT")return;
+const k=ev.key;kb.classList.add("off");
+if(k==="1"||k==="2"||k==="3"||k==="4"){const e0=W()[cur()],it=e0&&e0.querySelector?e0.querySelector(".item.cur"):null;if(it){const tb=it.querySelectorAll(".tab")[+k-1];if(tb){ev.preventDefault();tb.click()}return}}
+if(k==="f"||k==="F"){const e1=W()[cur()],it1=e1&&e1.querySelector?e1.querySelector(".item.cur"):null;if(it1){const tbs=[...it1.querySelectorAll(".tab")],j=tbs.findIndex(x=>x.classList.contains("on"));ev.preventDefault();tbs[(j+1)%tbs.length].click();return}}
+if(k==="l"||k==="L"){ev.preventDefault();spot.classList.toggle("on");return}
+if(spot.classList.contains("on")){
+if(k==="Escape"){spot.classList.remove("on");return}
+if(k==="+"||k==="="||k==="-"||k==="_"){ev.preventDefault();sr=Math.max(70,Math.min(400,sr+((k==="+"||k==="=")?30:-30)));spot.style.setProperty("--r",sr+"px");return}}
+if(k==="ArrowDown"||k==="PageDown"||(k===" "&&!ev.shiftKey)){ev.preventDefault();go(cur()+1)}
+else if(k==="ArrowUp"||k==="PageUp"||(k===" "&&ev.shiftKey)){ev.preventDefault();go(cur()-1)}
+else if(k==="Home"){ev.preventDefault();go(0)}
+else if(k==="End"){ev.preventDefault();go(1e3)}
+else if(k==="ArrowRight"||k==="ArrowLeft"){const d=k==="ArrowRight"?1:-1,e=W()[cur()];if(!e)return;
+if(e.id==="intro"){ev.preventDefault();const n=SEQ.length,i=SEQ.indexOf(IG.cur());IG.go(SEQ[(i+d+n)%n])}
+else if(e.nav){ev.preventDefault();e.nav(d)}}})})();
 document.addEventListener("click",ev=>{const im=ev.target.closest&&ev.target.closest(".ill img");if(!im)return;const o=document.createElement("div");o.className="lb";const x=new Image();x.src=im.src;o.appendChild(x);o.addEventListener("click",()=>o.remove());document.body.appendChild(o)});
 document.addEventListener("keydown",ev=>{if(ev.key==="Escape"){const o=document.querySelector(".lb");if(o)o.remove()}});
+document.addEventListener("click",ev=>{const b=ev.target.closest&&ev.target.closest(".tab");if(!b)return;const c=b.closest(".cd");c.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));c.querySelectorAll(".tp").forEach(q=>q.classList.toggle("on",q.dataset.t===b.dataset.t))});
 </script>
 </body>
 </html>
